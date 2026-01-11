@@ -399,6 +399,15 @@
       background:#fff;
       font-weight:800;
     }
+    .modal,
+    .modal * {
+  font-family: 'Be Vietnam Pro', Arial, Helvetica, sans-serif;
+  } 
+
+  .reader-actions select,
+  .reader-actions button {
+  font-family: 'Be Vietnam Pro', Arial, Helvetica, sans-serif;
+  }
     .btn{
       border:0;
       cursor:pointer;
@@ -440,22 +449,7 @@
     <div class="container topbar-inner">
       <a class="logo" href="#top">STORYHUB</a>
 
-      <nav class="nav">
-        <div class="nav-item">
-          <button class="nav-btn" type="button">DANH SÁCH <span class="caret">▾</span></button>
-          <div class="nav-menu">
-            <a href="#hot">Truyện hot</a>
-            <a href="#updates">Mới cập nhật</a>
-          </div>
-        </div>
-
-        <div class="nav-item">
-          <button class="nav-btn" type="button">THỂ LOẠI <span class="caret">▾</span></button>
-          <div class="nav-menu" id="navCategoryMenu"></div>
-        </div>
-      </nav>
-
-      <form class="search" onsubmit="return false;">
+       <form class="search" onsubmit="return false;">
         <input id="searchInput" type="search" placeholder="Tìm kiếm truyện..." autocomplete="off" />
         <button class="search-btn" type="button" id="searchBtn" aria-label="Tìm kiếm"></button>
       </form>
@@ -525,7 +519,7 @@
 
   <footer class="footer">
     <div class="container footer-inner">
-      STORYHUB
+      STORYHUB 
     </div>
   </footer>
 
