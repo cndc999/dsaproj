@@ -546,46 +546,125 @@
 let STORIES = {};
 
 async function loadStories() {
-  const res = await fetch("./data/stories.json");
-  STORIES = await res.json();
-  renderStories();
+  try {
+    const res = await fetch("./data/stories.json");
+    STORIES = await res.json();
+
+    renderHot();
+    renderUpdates();
+    bindModal();
+  } catch (e) {
+    console.error("Lỗi load stories.json:", e);
+  }
 }
 
-function renderStories() {
-  const list = document.getElementById("storyList");
-  list.innerHTML = "";
+/* ========== TRUYỆN HOT (grid trên) ========== */
+function renderHot() {
+  const grid = document.getElementById("hotGrid");
+  if (!grid) return;
+  grid.innerHTML = "";
 
   Object.values(STORIES).forEach(story => {
-    list.innerHTML += `
-      <div class="story">
-        <img src="${story.cover}" class="cover">
-        <h3>${story.title}</h3>
-        <p>${story.description}</p>
-        <span class="tag">${story.category}</span>
-
-        <div>
-          <select data-story="${story.id}" onchange="goReader(this)">
-            <option value="">-- Chọn chương --</option>
-            ${Object.keys(story.chapters)
-              .map(c => `<option value="${c}">${c.replace("chap","Chapter ")}</option>`)
-              .join("")}
-          </select>
+    grid.innerHTML += `
+      <div class="card" data-id="${story.id}">
+        <div class="cover">
+          <img src="${story.cover}" alt="${story.title}">
         </div>
+        <div class="caption">${story.title}</div>
       </div>
     `;
   });
+
+  // click card mở modal
+  grid.querySelectorAll(".card").forEach(card => {
+    card.addEventListener("click", () => openModal(card.dataset.id));
+  });
 }
 
-function goReader(select) {
-  if (!select.value) return;
-  const story = select.dataset.story;
-  const chap = select.value;
-  location.href = `reader.html?story=${story}&chap=${chap}`;
+/* ========== TRUYỆN MỚI CẬP NHẬT (bảng dưới) ========== */
+function renderUpdates() {
+  const box = document.getElementById("updatesList");
+  if (!box) return;
+  box.innerHTML = "";
+
+  const arr = Object.values(STORIES);
+
+  // nếu bạn có updatedAt thì sort theo updatedAt
+  arr.sort((a,b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+
+  arr.forEach(story => {
+    const chapters = Object.keys(story.chapters || {});
+    const lastChap = chapters.length ? chapters[chapters.length - 1] : "";
+
+    box.innerHTML += `
+      <div class="row">
+        <a href="#" data-id="${story.id}" class="upd-link">${story.title}</a>
+        <div class="muted">${story.category || ""}</div>
+        <div class="chap">${lastChap}</div>
+        <div class="time">${story.updated || ""}</div>
+      </div>
+    `;
+  });
+
+  // click tiêu đề mở modal
+  box.querySelectorAll(".upd-link").forEach(a => {
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      openModal(a.dataset.id);
+    });
+  });
+}
+
+/* ========== MODAL ========== */
+function bindModal() {
+  const closeBtn = document.getElementById("modalClose");
+  const modal = document.getElementById("modal");
+
+  closeBtn?.addEventListener("click", () => modal.classList.remove("open"));
+
+  // bấm ra ngoài để đóng
+  modal?.addEventListener("click", (e) => {
+    if (e.target === modal) modal.classList.remove("open");
+  });
+}
+
+function openModal(storyId) {
+  const story = Object.values(STORIES).find(s => s.id === storyId) || STORIES[storyId];
+  if (!story) return;
+
+  document.getElementById("modal").classList.add("open");
+  document.getElementById("modalTitle").innerText = story.title || "Đọc truyện";
+  document.getElementById("readerName").innerText = story.title || "";
+  document.getElementById("readerCategory").innerText = story.category || "";
+  document.getElementById("readerDesc").innerText = story.description || "";
+  document.getElementById("readerCover").src = story.cover || "";
+
+  // fill chapter select
+  const select = document.getElementById("chapterSelect");
+  const pages = document.getElementById("pages");
+  pages.innerHTML = "";
+
+  const chapters = Object.keys(story.chapters || {});
+  select.innerHTML = chapters.map(ch => `<option value="${ch}">${ch}</option>`).join("");
+
+  document.getElementById("loadChapterBtn").onclick = () => {
+    const chap = select.value;
+    loadChapter(story, chap);
+  };
+
+  // auto load chap đầu (nếu muốn)
+  if (chapters.length) loadChapter(story, chapters[0]);
+}
+
+function loadChapter(story, chap) {
+  const pages = document.getElementById("pages");
+  pages.innerHTML = "";
+
+  const imgs = (story.chapters && story.chapters[chap]) ? story.chapters[chap] : [];
+  imgs.forEach(src => {
+    pages.innerHTML += `<img src="${src}" alt="">`;
+  });
 }
 
 loadStories();
 </script>
-  </footer
-
-
-  
