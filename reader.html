@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Reader</title>
+
+<style>
+body{margin:0;font-family:Arial;background:#eee}
+img{display:block;width:100%;max-width:900px;margin:0 auto 12px;border-radius:8px}
+</style>
+</head>
+
+<body>
+
+<h2 id="title">Đang tải...</h2>
+<select id="chapSelect"></select>
+<div id="pages"></div>
+
+<script>
+let STORIES = {};
+
+function qs(name){
+  return new URLSearchParams(location.search).get(name);
+}
+
+async function loadStories(){
+  const res = await fetch("./data/stories.json");
+  STORIES = await res.json();
+  render();
+}
+
+function render(){
+  const storyKey = qs("story");
+  const chapKey = qs("chap");
+  if (!storyKey || !chapKey) {
+    document.getElementById("title").textContent =
+      "Thiếu thông tin truyện";
+    return;
+  }
+
+  const story = STORIES[storyKey];
+  if (!story) {
+    document.getElementById("title").textContent =
+      "Không tìm thấy truyện";
+    return;
+  }
+  if (!story) return;
+
+  document.getElementById("title").textContent =
+    `${story.title} - ${chapKey.replace("chap","Chapter ")}`;
+
+  const select = document.getElementById("chapSelect");
+  select.innerHTML = Object.keys(story.chapters)
+    .map(c => `<option value="${c}">${c.replace("chap","Chapter ")}</option>`)
+    .join("");
+
+  select.value = chapKey;
+
+  select.onchange = () => {
+    location.href = `reader.html?story=${storyKey}&chap=${select.value}`;
+  };
+
+  const pages = document.getElementById("pages");
+  pages.innerHTML = story.chapters[chapKey]
+    .map(img => `<img src="${img}">`)
+    .join("");
+}
+
+loadStories();
+</script>
+
+</body>
+</html>

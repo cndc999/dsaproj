@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Admin - Thêm truyện</title>
+<style>
+input,textarea{display:block;width:100%;margin-bottom:8px;padding:6px}
+pre{background:#111;color:#0f0;padding:10px}
+</style>
+</head>
+
+<body>
+
+<h2>Thêm truyện mới</h2>
+
+<input id="id" placeholder="ID (không dấu)">
+<input id="title" placeholder="Tiêu đề">
+<textarea id="desc" placeholder="Mô tả"></textarea>
+<input id="category" placeholder="Thể loại">
+<input id="cover" placeholder="Link cover">
+
+<button onclick="exportJSON()">Xuất JSON</button>
+
+<pre id="out"></pre>
+
+<script>
+function exportJSON(){
+  const story = {
+    id: id.value,
+    title: title.value,
+    description: desc.value,
+    category: category.value,
+    cover: cover.value,
+    chapters: {}
+  };
+  out.textContent = JSON.stringify(story, null, 2);
+}
+</script>
+
+</body>
+</html>
