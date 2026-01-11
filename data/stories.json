@@ -76,5 +76,36 @@
         "./assets/img/conan/chap2/p1.jpg"
       ]
     }
-  }
+  },
+
+ "hust": {
+  "id": "0001",
+  "title": "HUST",
+  "description": "Hành trình trở thành vua giải tích của chàng sinh viên Bách Khoa",
+  "category": "Tiên Hiệp",
+  "cover": "",
+  "chapters": {}
+ },
+
+ "truyen1": {
+  "id": "0002",
+  "title": "BK",
+  "description": "1",
+  "category": "Huyền Huyễn",
+  "cover": "",
+  "chapters":  {}
+ },
+
+
+"truyen2": {
+  "id": "0003",
+  "title": "3",
+  "description": "3",
+  "category": "Trinh Thám",
+  "cover": "",
+  "chapters":  {}
+ }
 }
+ 
+
+
