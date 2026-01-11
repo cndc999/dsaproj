@@ -1,73 +1,558 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<title>Reader</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>STORYHUB - Reader</title>
 
-<style>
-body{margin:0;font-family:Arial;background:#eee}
-img{display:block;width:100%;max-width:900px;margin:0 auto 12px;border-radius:8px}
-</style>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --container: 1120px;
+      --bg: #f1f1f1;
+      --card: #ffffff;
+      --text: #222;
+      --muted: #777;
+      --line: #e6e6e6;
+      --shadow: 0 10px 26px rgba(0,0,0,.10);
+
+      --brand: #f39c12;
+      --brand2:#d35400;
+
+      --green: #3fa34d;
+      --green2:#2f8b3b;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family:'Be Vietnam Pro', Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background: var(--bg);
+    }
+    .container{
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    
+    .topbar{
+      background:#fff;
+      border-bottom:1px solid var(--line);
+      position:sticky;
+      top:0;
+      z-index:20;
+    }
+    .topbar-inner{
+      height:64px;
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+    .home-link{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      text-decoration:none;
+      color:#444;
+      font-weight:800;
+      padding:8px 10px;
+      border-radius:10px;
+    }
+    .home-link:hover{ background:#f7f7f7; }
+    .logo{
+      text-decoration:none;
+      font-weight:900;
+      letter-spacing:.5px;
+      font-size:24px;
+      color:var(--brand);
+      font-style: italic;
+      user-select:none;
+      margin-right: 8px;
+    }
+
+    .nav{
+      display:flex;
+      gap:14px;
+    }
+    .nav-item{ position:relative; }
+    .nav-btn{
+      border:0;
+      background:transparent;
+      font-weight:700;
+      cursor:pointer;
+      padding:8px 10px;
+      border-radius:8px;
+      color:#444;
+    }
+    .nav-btn:hover{ background:#f7f7f7; }
+    .caret{ margin-left:6px; opacity:.7; }
+    .nav-menu{
+      position:absolute;
+      top:42px;
+      left:0;
+      min-width: 180px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:10px;
+      box-shadow: 0 6px 16px rgba(0,0,0,.08);
+      padding:8px;
+      display:none;
+    }
+    .nav-item:hover .nav-menu{ display:block; }
+    .nav-menu a{
+      display:block;
+      padding:10px 10px;
+      text-decoration:none;
+      color:#333;
+      border-radius:8px;
+      font-size:14px;
+      white-space:nowrap;
+    }
+    .nav-menu a:hover{ background:#f5f5f5; }
+
+    .search{
+      margin-left:auto;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      background:#fafafa;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:8px 10px;
+      width: 360px;
+      max-width: 45vw;
+    }
+    .search input{
+      border:0;
+      outline:0;
+      background:transparent;
+      flex:1;
+      font-size:14px;
+    }
+    .search button{
+      border:0;
+      cursor:pointer;
+      background:transparent;
+      font-size:16px;
+      opacity:.85;
+    }
+    @media (max-width: 820px){
+      .search{ display:none; }
+    }
+
+    
+    .crumbbar{
+      background:#fff;
+      border-bottom:1px solid var(--line);
+    }
+    .crumb{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 0;
+      color:#666;
+      font-size:13px;
+      flex-wrap:wrap;
+    }
+    .crumb a{
+      color:#666;
+      text-decoration:none;
+    }
+    .crumb a:hover{ color: var(--brand2); }
+    .sep{ opacity:.6; }
+
+    /* “1 gạch” mở dropdown */
+    .dash{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:4px 8px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:#fafafa;
+      cursor:pointer;
+      user-select:none;
+      font-weight:800;
+      color:#555;
+      line-height:1;
+    }
+    .dash:hover{
+      background:#f2f2f2;
+    }
+
+    .chap-pop{
+      position:relative;
+      display:inline-block;
+    }
+    .chap-panel{
+      position:absolute;
+      top: 26px;
+      left: 0;
+      min-width: 220px;
+      max-height: 280px;
+      overflow:auto;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:12px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.12);
+      padding:8px;
+      display:none;
+      z-index:30;
+    }
+    .chap-panel.open{ display:block; }
+    .chap-item{
+      width:100%;
+      text-align:left;
+      border:0;
+      background:transparent;
+      padding:10px 10px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:700;
+      color:#333;
+    }
+    .chap-item:hover{ background:#f5f5f5; }
+    .chap-item.active{
+      background: rgba(63,163,77,.12);
+      color: var(--green2);
+    }
+
+    /* ===== Reader paper ===== */
+    .page{ padding: 18px 0 50px; }
+    .paper-wrap{ display:flex; justify-content:center; }
+    .paper{
+      width:min(920px, 100%);
+      background: var(--card);
+      border:1px solid var(--line);
+      box-shadow: var(--shadow);
+      border-radius: 4px;
+      padding: 26px 22px 30px;
+    }
+
+    .head{
+      text-align:center;
+      margin-bottom: 16px;
+    }
+    .story-name{
+      margin: 0 0 4px;
+      font-size: 18px;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: var(--brand2);
+      letter-spacing: .6px;
+    }
+    .chap-name{
+      margin: 0 0 10px;
+      font-size: 14px;
+      color:#666;
+      font-weight:600;
+    }
+    .orn{
+      width: 120px;
+      height: 14px;
+      margin: 8px auto 12px;
+      border-top: 2px solid #ddd;
+      border-bottom: 2px solid #ddd;
+      border-radius: 999px;
+      opacity:.7;
+    }
+
+    /* ===== Nav arrows (trái/phải) + giữa ===== */
+    .navline{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:8px;
+      margin: 8px 0 14px;
+    }
+    .btn-green{
+      border:0;
+      cursor:pointer;
+      border-radius: 4px;
+      padding: 10px 14px;
+       font-family: 'Be Vietnam Pro', Arial, Helvetica, sans-serif;
+      font-weight: 800;
+      color:#fff;
+      background: var(--green);
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      min-width: 160px;
+      justify-content:center;
+    }
+    .btn-green:hover{ background: var(--green2); }
+    .btn-green:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+    }
+    .btn-menu{
+      min-width: 44px;
+      padding: 10px 12px;
+      background: var(--green);
+      border-radius: 4px;
+      color:#fff;
+      font-weight: 900;
+    }
+    .btn-menu:hover{ background: var(--green2); }
+
+    .pages{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-top: 10px;
+    }
+    .pages img{
+      width:100%;
+      height:auto;
+      border-radius: 6px;
+      border:1px solid #eee;
+      background:#fafafa;
+      display:block;
+    }
+
+    .empty{
+      padding: 18px 10px;
+      text-align:center;
+      color:#777;
+    }
+  </style>
 </head>
 
 <body>
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="home-link" href="index.html"> Trang chủ</a>
+      <a class="logo" href="index.html">STORYHUB</a>
 
-<h2 id="title">Đang tải...</h2>
-<select id="chapSelect"></select>
-<div id="pages"></div>
+      <nav class="nav">
+        <div class="nav-item">
+          <button class="nav-btn" type="button">DANH SÁCH <span class="caret">▾</span></button>
+          <div class="nav-menu">
+            <a href="index.html#hot">Truyện hot</a>
+          </div>
+        </div>
+
+        <div class="nav-item">
+          <button class="nav-btn" type="button">THỂ LOẠI <span class="caret">▾</span></button>
+          <div class="nav-menu" id="navCategoryMenu">
+            <!-- optional -->
+          </div>
+        </div>
+      </nav>
+
+      <form class="search" onsubmit="return false;">
+        <input type="search" placeholder="Tìm kiếm truyện..." autocomplete="off">
+        <button type="button" aria-label="Tìm kiếm"></button>
+      </form>
+    </div>
+  </header>
+
+  <!-- BREADCRUMB -->
+  <div class="crumbbar">
+    <div class="container">
+      <div class="crumb">
+        <a href="index.html">Trang chủ</a>
+        <span class="sep">/</span>
+        <span id="crumbStory">Truyện</span>
+
+        <!-- “1 gạch” mở dropdown -->
+        <span class="sep">/</span>
+        <span class="chap-pop">
+          <span class="dash" id="dashOpen" title="Chọn chương">—</span>
+          <div class="chap-panel" id="chapPanel"></div>
+        </span>
+
+        <span class="sep">/</span>
+        <span id="crumbChapter">Chương</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- READER -->
+  <main class="container page">
+    <div class="paper-wrap">
+      <article class="paper">
+        <div class="head">
+          <h1 class="story-name" id="storyTitle">ĐANG TẢI…</h1>
+          <div class="chap-name" id="chapterTitle">—</div>
+          <div class="orn"></div>
+        </div>
+
+        <div class="navline">
+          <button class="btn-green" id="btnPrev">⬅ Chương trước</button>
+          <button class="btn-menu" id="btnMenu" title="Chọn chương">≡</button>
+          <button class="btn-green" id="btnNext">Chương tiếp ➡</button>
+        </div>
+
+        <div class="orn"></div>
+
+        <section class="pages" id="pages"></section>
+      </article>
+    </div>
+  </main>
 
 <script>
-let STORIES = {};
+  const DATA_URL = "./data/stories.json";
 
-function qs(name){
-  return new URLSearchParams(location.search).get(name);
-}
-
-async function loadStories(){
-  const res = await fetch("./data/stories.json");
-  STORIES = await res.json();
-  render();
-}
-
-function render(){
-  const storyKey = qs("story");
-  const chapKey = qs("chap");
-  if (!storyKey || !chapKey) {
-    document.getElementById("title").textContent =
-      "Thiếu thông tin truyện";
-    return;
+  function qs(name){
+    return new URLSearchParams(location.search).get(name);
+  }
+  function setQuery(story, chap){
+    const url = new URL(location.href);
+    url.searchParams.set("story", story);
+    url.searchParams.set("chap", chap);
+    history.replaceState({}, "", url);
   }
 
-  const story = STORIES[storyKey];
-  if (!story) {
-    document.getElementById("title").textContent =
-      "Không tìm thấy truyện";
-    return;
+  function normalizeSrc(src){
+    
+    if (typeof src !== "string") return "";
+    return src.startsWith("./") ? src.slice(2) : src;
   }
-  if (!story) return;
 
-  document.getElementById("title").textContent =
-    `${story.title} - ${chapKey.replace("chap","Chapter ")}`;
+  function chapLabel(k){
+    
+    if (!k) return "";
+    if (/^chap\d+$/i.test(k)) return "Chương " + k.replace(/chap/i,"");
+    return k;
+  }
 
-  const select = document.getElementById("chapSelect");
-  select.innerHTML = Object.keys(story.chapters)
-    .map(c => `<option value="${c}">${c.replace("chap","Chapter ")}</option>`)
-    .join("");
+  function togglePanel(open){
+    const panel = document.getElementById("chapPanel");
+    if (!panel) return;
+    panel.classList.toggle("open", open);
+  }
 
-  select.value = chapKey;
+  async function init(){
+    const storyId = qs("story");
+    const chapFromUrl = qs("chap");
 
-  select.onchange = () => {
-    location.href = `reader.html?story=${storyKey}&chap=${select.value}`;
-  };
+    if (!storyId){
+      location.href = "index.html";
+      return;
+    }
 
-  const pages = document.getElementById("pages");
-  pages.innerHTML = story.chapters[chapKey]
-    .map(img => `<img src="${img}">`)
-    .join("");
-}
+    const res = await fetch(DATA_URL);
+    const STORIES = await res.json();
+    const story = Object.values(STORIES).find(s => s.id === storyId) || STORIES[storyId];
 
-loadStories();
+    if (!story){
+      location.href = "index.html";
+      return;
+    }
+
+    const chapters = Object.keys(story.chapters || {});
+    if (!chapters.length){
+      document.getElementById("storyTitle").textContent = story.title || "Không có tiêu đề";
+      document.getElementById("chapterTitle").textContent = "Chưa có chương";
+      document.getElementById("pages").innerHTML = `<div class="empty">Chưa có nội dung chương.</div>`;
+      return;
+    }
+
+    let currentChap = (chapFromUrl && chapters.includes(chapFromUrl)) ? chapFromUrl : chapters[0];
+
+    const storyTitleEl = document.getElementById("storyTitle");
+    const chapterTitleEl = document.getElementById("chapterTitle");
+    const pagesEl = document.getElementById("pages");
+
+    const crumbStory = document.getElementById("crumbStory");
+    const crumbChapter = document.getElementById("crumbChapter");
+
+    const btnPrev = document.getElementById("btnPrev");
+    const btnNext = document.getElementById("btnNext");
+    const btnMenu = document.getElementById("btnMenu");
+    const dashOpen = document.getElementById("dashOpen");
+    const chapPanel = document.getElementById("chapPanel");
+
+    
+    storyTitleEl.textContent = (story.title || "Không có tiêu đề").toUpperCase();
+    crumbStory.textContent = story.title || "Truyện";
+
+    function renderChapPanel(){
+      chapPanel.innerHTML = chapters.map(ch => {
+        const active = ch === currentChap ? "active" : "";
+        return `<button class="chap-item ${active}" type="button" data-ch="${ch}">${chapLabel(ch)}</button>`;
+      }).join("");
+
+      chapPanel.querySelectorAll(".chap-item").forEach(btn => {
+        btn.addEventListener("click", () => {
+          goChapter(btn.dataset.ch);
+          togglePanel(false);
+        });
+      });
+    }
+
+    function renderImages(ch){
+      const imgs = (story.chapters && story.chapters[ch]) ? story.chapters[ch] : [];
+      pagesEl.innerHTML = "";
+
+      if (!imgs || imgs.length === 0){
+        pagesEl.innerHTML = `<div class="empty">Chương này chưa có ảnh.</div>`;
+        return;
+      }
+
+      imgs.forEach(src => {
+        const img = document.createElement("img");
+        img.src = normalizeSrc(src);
+        img.alt = "";
+        pagesEl.appendChild(img);
+      });
+    }
+
+    function updateNav(){
+      const idx = chapters.indexOf(currentChap);
+      btnPrev.disabled = idx <= 0;
+      btnNext.disabled = idx >= chapters.length - 1;
+      crumbChapter.textContent = chapLabel(currentChap);
+      chapterTitleEl.textContent = chapLabel(currentChap);
+      renderChapPanel();
+    }
+
+    function goChapter(ch){
+      currentChap = ch;
+      setQuery(story.id, currentChap);
+      updateNav();
+      renderImages(currentChap);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    
+    btnPrev.addEventListener("click", () => {
+      const idx = chapters.indexOf(currentChap);
+      if (idx > 0) goChapter(chapters[idx - 1]);
+    });
+
+    btnNext.addEventListener("click", () => {
+      const idx = chapters.indexOf(currentChap);
+      if (idx < chapters.length - 1) goChapter(chapters[idx + 1]);
+    });
+
+    
+    btnMenu.addEventListener("click", () => {
+      togglePanel(!chapPanel.classList.contains("open"));
+    });
+
+    
+    dashOpen.addEventListener("click", () => {
+      togglePanel(!chapPanel.classList.contains("open"));
+    });
+
+    
+    document.addEventListener("click", (e) => {
+      if (e.target === dashOpen) return;
+      if (e.target === btnMenu) return;
+      if (chapPanel.contains(e.target)) return;
+      togglePanel(false);
+    });
+
+    
+    goChapter(currentChap);
+  }
+
+  init();
 </script>
-
 </body>
 </html>
