@@ -6,11 +6,11 @@
     "category": "Tu Tiên",
     "cover": "./assets/img/cover/1.png",
     "chapters": {
-      "chap1": [
+      "Chapter 1": [
         "./assets/img/tu-tien/chap1/p1.jpg",
         "./assets/img/tu-tien/chap1/p2.jpg"
       ],
-      "chap2": [
+      "Chapter 2": [
         "./assets/img/tu-tien/chap2/p1.jpg"
       ]
     }
@@ -23,10 +23,10 @@
     "category": "Huyền Huyễn",
     "cover": "./assets/img/cover/2.png",
     "chapters": {
-      "chap1": [
+      "Chapter 1": [
         "./assets/img/huyen-huyen/chap1/p1.jpg"
       ],
-      "chap2": [
+      "Chapter 2": [
         "./assets/img/huyen-huyen/chap2/p1.jpg",
         "./assets/img/huyen-huyen/chap2/p2.jpg"
       ]
@@ -40,7 +40,7 @@
     "category": "Ngôn Tình - Cổ Đại",
     "cover": "./assets/img/cover/3.jpg",
     "chapters": {
-      "chap1": [
+      "Chapter 1": [
         "./assets/img/dong-cung/chap1/p1.jpg"
       ],
       "chap2": [
@@ -56,7 +56,7 @@
     "category": "Ngôn Tình - Hiện Đại",
     "cover": "./assets/img/cover/4.jpg",
     "chapters": {
-      "chap1": [
+      "Chapter 1": [
         "./assets/img/ben-nhau-tron-doi/chap1/p1.jpg"
       ]
     }
@@ -69,10 +69,10 @@
     "category": "Trinh Thám",
     "cover": "./assets/img/cover/5.jpg",
     "chapters": {
-      "chap1": [
+      "Chapter 1": [
         "./assets/img/conan/chap1/p1.jpg"
       ],
-      "chap2": [
+      "Chapter 2": [
         "./assets/img/conan/chap2/p1.jpg"
       ]
     }
