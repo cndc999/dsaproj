@@ -1,21 +1,18 @@
 let STORIES = {};
 
-// ================= LOAD DATA =================
 async function loadStories() {
   try {
     const res = await fetch("./data/stories.json");
     STORIES = await res.json();
-
     renderHot();
     renderUpdates();
     bindModal();
-    initSearch(); // khởi tạo search sau khi render
+    initSearch();
   } catch (e) {
     console.error("Lỗi load stories.json:", e);
   }
 }
 
-// ================= RENDER HOT =================
 function renderHot() {
   const grid = document.getElementById("hotGrid");
   if (!grid) return;
@@ -40,7 +37,6 @@ function renderHot() {
   });
 }
 
-// ================= RENDER UPDATES =================
 function renderUpdates() {
   const box = document.getElementById("updatesList");
   if (!box) return;
@@ -71,42 +67,57 @@ function renderUpdates() {
   });
 }
 
-// ================= MODAL =================
 function bindModal() {
   const closeBtn = document.getElementById("modalClose");
   const modal = document.getElementById("modal");
 
-  closeBtn?.addEventListener("click", () => modal.classList.remove("open"));
-  modal?.addEventListener("click", (e) => {
-    if (e.target === modal) modal.classList.remove("open");
-  });
+  if (closeBtn) closeBtn.addEventListener("click", () => modal.classList.remove("open"));
+
+  if (modal) {
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) modal.classList.remove("open");
+    });
+  }
 }
 
 function openModal(storyId) {
   const story = Object.values(STORIES).find(s => s.id === storyId);
   if (!story) return;
 
-  document.getElementById("modal").classList.add("open");
-  document.getElementById("modalTitle").innerText = story.title || "";
-  document.getElementById("readerName").innerText = story.title || "";
-  document.getElementById("readerCategory").innerText = story.category || "";
-  document.getElementById("readerDesc").innerText = story.description || "";
-  document.getElementById("readerCover").src = story.cover || "";
+  const modal = document.getElementById("modal");
+  if (modal) modal.classList.add("open");
+
+  const modalTitle = document.getElementById("modalTitle");
+  if (modalTitle) modalTitle.innerText = story.title || "";
+
+  const readerName = document.getElementById("readerName");
+  if (readerName) readerName.innerText = story.title || "";
+
+  const readerCategory = document.getElementById("readerCategory");
+  if (readerCategory) readerCategory.innerText = story.category || "";
+
+  const readerDesc = document.getElementById("readerDesc");
+  if (readerDesc) readerDesc.innerText = story.description || "";
+
+  const readerCover = document.getElementById("readerCover");
+  if (readerCover) readerCover.src = story.cover || "";
 
   const select = document.getElementById("chapterSelect");
-  select.innerHTML = Object.keys(story.chapters || {})
-    .map(ch => `<option value="${ch}">${ch}</option>`)
-    .join("");
+  if (select) {
+    select.innerHTML = Object.keys(story.chapters || {})
+      .map(ch => `<option value="${ch}">${ch}</option>`)
+      .join("");
+  }
 
-  document.getElementById("loadChapterBtn").onclick = () => {
-    const chap = select.value;
-    if (chap) {
-      window.location.href = `reader.html?story=${story.id}&chap=${chap}`;
-    }
-  };
+  const btn = document.getElementById("loadChapterBtn");
+  if (btn && select) {
+    btn.onclick = () => {
+      const chap = (select.value || "").trim();
+      if (chap) window.location.href = `reader.html?story=${story.id}&chap=${chap}`;
+    };
+  }
 }
 
-// ================= SEARCH + FILTER =================
 function normalize(str) {
   return (str || "")
     .toLowerCase()
@@ -118,41 +129,51 @@ function initSearch() {
   const searchInput = document.getElementById("searchInput");
   const categorySelect = document.getElementById("categorySelect");
   const grid = document.getElementById("hotGrid");
+  const navCategoryMenu = document.getElementById("navCategoryMenu");
 
   if (!searchInput || !categorySelect || !grid) return;
 
-  // đổ thể loại từ card đã render
+  const cards = () => Array.from(grid.querySelectorAll(".card"));
+
   const cats = [...new Set(
-    Array.from(grid.querySelectorAll(".card"))
-      .map(c => c.dataset.category)
+    Object.values(STORIES)
+      .map(s => (s.category || "").trim())
       .filter(Boolean)
   )];
 
-  categorySelect.innerHTML =
-    `<option value="__all__">TẤT CẢ</option>` +
-    cats.map(c => `<option value="${c}">${c}</option>`).join("");
+  categorySelect.innerHTML = `<option value="__all__">TẤT CẢ</option>` + cats.map(c => `<option value="${c}">${c}</option>`).join("");
+
+  if (navCategoryMenu) {
+    navCategoryMenu.innerHTML = `<a href="#" data-cat="__all__">Tất cả</a>` + cats.map(c => `<a href="#" data-cat="${c}">${c}</a>`).join("");
+    navCategoryMenu.querySelectorAll("a[data-cat]").forEach(a => {
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        categorySelect.value = a.dataset.cat || "__all__";
+        applyFilter();
+      });
+    });
+  }
 
   function applyFilter() {
     const q = normalize(searchInput.value);
     const cat = categorySelect.value;
 
-    grid.querySelectorAll(".card").forEach(card => {
+    cards().forEach(card => {
       const title = normalize(card.dataset.title);
-      const c = card.dataset.category;
+      const c = (card.dataset.category || "").trim();
+      const cNorm = normalize(c);
 
-      const okName = title.includes(q);
+      const okText = !q || title.includes(q) || cNorm.includes(q);
       const okCat = cat === "__all__" || c === cat;
 
-      card.style.display = (okName && okCat) ? "" : "none";
+      card.style.display = (okText && okCat) ? "" : "none";
     });
   }
 
-  // 🔥 FIX TRIỆT ĐỂ CHO SEARCH
   searchInput.addEventListener("input", applyFilter);
-  searchInput.addEventListener("keyup", applyFilter);   // hỗ trợ gõ tiếng Việt
-  searchInput.addEventListener("search", applyFilter);  // khi clear ô search
+  searchInput.addEventListener("keyup", applyFilter);
+  searchInput.addEventListener("search", applyFilter);
   categorySelect.addEventListener("change", applyFilter);
 }
 
-// ================= START =================
 loadStories();
