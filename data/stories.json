@@ -3,8 +3,8 @@
     "id": "tu-tien",
     "title": "Xuyên Không Thành Cường Giả",
     "description": "Một thiếu niên hiện đại xuyên không vào thế giới tu tiên, từng bước trở thành cường giả tối thượng.",
-    "category": "Tiên Hiệp",
-    "cover": "./assets/img/cover/cao-bang.png",
+    "category": "Tu Tiên",
+    "cover": "./assets/img/cover/1.png",
     "chapters": {
       "chap1": [
         "./assets/img/tu-tien/chap1/p1.jpg",
@@ -21,7 +21,7 @@
     "title": "Đấu Phá Thương Khung",
     "description": "Thế giới huyền huyễn nơi đấu khí quyết định tất cả, kẻ yếu không có quyền lựa chọn.",
     "category": "Huyền Huyễn",
-    "cover": "./assets/img/cover/huyen-huyen.png",
+    "cover": "./assets/img/cover/2.png",
     "chapters": {
       "chap1": [
         "./assets/img/huyen-huyen/chap1/p1.jpg"
