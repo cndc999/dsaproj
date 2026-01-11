@@ -32,7 +32,7 @@
       padding: 0 16px;
     }
 
-    /* HEADER */
+    
     .topbar{
       background:#fff;
       border-bottom:1px solid var(--line);
@@ -133,7 +133,7 @@
       font-size:13px;
     }
 
-    /* MAIN */
+    
     .page{ padding: 18px 0 30px; }
 
     .section{
@@ -552,7 +552,6 @@ async function loadStories() {
   }
 }
 
-/* ========== TRUYỆN HOT (grid trên) ========== */
 function renderHot() {
   const grid = document.getElementById("hotGrid");
   if (!grid) return;
@@ -569,13 +568,11 @@ function renderHot() {
     `;
   });
 
-  // click card mở modal
   grid.querySelectorAll(".card").forEach(card => {
     card.addEventListener("click", () => openModal(card.dataset.id));
   });
 }
 
-/* ========== TRUYỆN MỚI CẬP NHẬT (bảng dưới) ========== */
 function renderUpdates() {
   const box = document.getElementById("updatesList");
   if (!box) return;
@@ -583,7 +580,6 @@ function renderUpdates() {
 
   const arr = Object.values(STORIES);
 
-  // nếu bạn có updatedAt thì sort theo updatedAt
   arr.sort((a,b) => (b.updatedAt || 0) - (a.updatedAt || 0));
 
   arr.forEach(story => {
@@ -600,7 +596,6 @@ function renderUpdates() {
     `;
   });
 
-  // click tiêu đề mở modal
   box.querySelectorAll(".upd-link").forEach(a => {
     a.addEventListener("click", (e) => {
       e.preventDefault();
@@ -609,14 +604,12 @@ function renderUpdates() {
   });
 }
 
-/* ========== MODAL ========== */
 function bindModal() {
   const closeBtn = document.getElementById("modalClose");
   const modal = document.getElementById("modal");
 
   closeBtn?.addEventListener("click", () => modal.classList.remove("open"));
 
-  // bấm ra ngoài để đóng
   modal?.addEventListener("click", (e) => {
     if (e.target === modal) modal.classList.remove("open");
   });
@@ -630,26 +623,35 @@ function openModal(storyId) {
   document.getElementById("modalTitle").innerText = story.title || "Đọc truyện";
   document.getElementById("readerName").innerText = story.title || "";
   document.getElementById("readerCategory").innerText = story.category || "";
-  document.getElementById("readerDesc").innerText = story.description || "";
+
+  
+  const descEl = document.getElementById("readerDesc");
+  descEl.innerText = story.description ? story.description : "";
+
   document.getElementById("readerCover").src = story.cover || "";
 
-  // fill chapter select
   const select = document.getElementById("chapterSelect");
   const pages = document.getElementById("pages");
+
+  
   pages.innerHTML = "";
 
   const chapters = Object.keys(story.chapters || {});
-  select.innerHTML = chapters.map(ch => `<option value="${ch}">${ch}</option>`).join("");
+  select.innerHTML = chapters
+    .map(ch => `<option value="${ch}">${ch}</option>`)
+    .join("");
 
+  
   document.getElementById("loadChapterBtn").onclick = () => {
-    const chap = select.value;
-    loadChapter(story, chap);
+    const chap = (select.value || "").trim();
+    if (!chap) return;
+    window.location.href = `reader.html?story=${story.id}&chap=${chap}`;
   };
 
-  // auto load chap đầu (nếu muốn)
-  if (chapters.length) loadChapter(story, chapters[0]);
+  
 }
 
+// Giữ lại hàm này cũng được (không dùng nữa ở index, nhưng để đó không sao)
 function loadChapter(story, chap) {
   const pages = document.getElementById("pages");
   pages.innerHTML = "";
@@ -662,3 +664,4 @@ function loadChapter(story, chap) {
 
 loadStories();
 </script>
+
