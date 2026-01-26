@@ -1281,8 +1281,22 @@
 
       ]      
     }
- }
+ },
+
+  "truyen11": {
+  "id": "46",
+  "title": "Lúc Đó Tôi Không Biết Đó Là Một Món Hời",
+  "description": "Lúc Đó Tôi Không Biết Đó Là Một Món Hời là một truyện tranh thuộc thể loại Full Color, Huyền Huyễn, Hệ Thống, manhwa, Webtoon, R. 15, Manhua, Fantasy, Truyện Màu, Drama, được nhiều độc giả ưa chuộng và tìm đọc.",
+  "category": "Fantasy",
+  "cover": "./assets/img/fantasy/1..jpg",
+  "chapters":  {"Chapter 1":[
+
+  ]
+    }
+  }
 }
+
+
 
  
  
