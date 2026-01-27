@@ -60,7 +60,7 @@
   },
 
   "huyen-huyen": {
-    "id": "huyen-huyen",
+    "id": "2",
     "title": "Thiên Châu Biến",
     "description": "Mỗi người đều có bản mạng châu, sau khi thức tỉnh, hoặc là Ý Châu, hoặc là Thể Châu, tựa như một vòng xuyến xoay quanh hai cổ tay. Thiên Châu lại tựa như song bào thai vậy, khi Ý, Thể song châu cùng xuất hiện trên một người, đây là Thiên Châu. Tu luyện Thể Châu giả gọi là Thể Châu Sư, tu luyện Ý Châu giả gọi là Ý Châu Sư, mà tu luyện Thiên Châu giả tất nhiên gọi là Thiên Châu Sư vậy. Thiên Châu Sư cảnh giới cao nhất là thập nhị song châu, vì thế mà quá trình tu luyện của nó cũng được gọi là Thiên Châu Thập Nhị Biến. Nhân vật chính của chúng ta chính là một vị tu luyện Thiên Châu Biến, hắn là một cung tiến thủ.",
     "category": "Huyền Huyễn",
@@ -115,7 +115,7 @@
   },
 
   "ngon-tinh-co-dai": {
-    "id": "ngon-tinh",
+    "id": "3",
     "title": "Ái Tam Phân Tuyến",
     "description": "Chuyện tình bi thương giữa hoàng tử và công chúa nơi cung đình cổ đại.",
     "category": "Ngôn Tình",
@@ -1327,10 +1327,48 @@
 
       ]
     }
+  },
+ "truye118": {
+  "id": "54",
+  "title": "Neet Dakedo Hello Work Ni Ittara Isekai Ni Tsuretekareta",
+  "description": "Một tên NEET Yamano Masaru (23 tuổi) tới Hello Work tìm việc nhận được một lời mời làm việc thú vị: chơi thử Khu vườn nhỏ của thế giới Razgrad cùng với số tiền lương hấp dẫn lên đến hơn 250.000 yên một tháng!!! Ngay lập tức cậu ta đi vào phỏng vấn và ký hợp đồng. Tuy nhiện nơi làm việc lại là ở thế giới khác. Bởi vì bản hợp đồng mà cậu ta đã ký, để sống sót thì cậu ta đã nhận được cheat vì cậu ta đã nghe được một sự thật éo thể tin được: Thế giới này sẽ bị phá hủy sau 20 năm nữa. Liệu một tên NEET có ngăn chặn được việc thế giới bị phá hủy hay không ?!",
+  "category": "Chuyển Sinh",
+  "cover": "./assets/img/cover/13.jpg",
+  "chapters":  {
+    "Chapter 1": [
+        "./assets/img/chuyen-sinh/daketo/chap1/4.jpg",
+        "./assets/img/chuyen-sinh/daketo/chap1/5.jpg",
+        "./assets/img/chuyen-sinh/daketo/chap1/6.jpg",
+        "./assets/img/chuyen-sinh/daketo/chap1/7.jpg",
+        "./assets/img/chuyen-sinh/daketo/chap1/8.jpg",
+        "./assets/img/chuyen-sinh/daketo/chap1/9.jpg",
+        "./assets/img/chuyen-sinh/daketo/chap1/10.jpg",
+        "./assets/img/chuyen-sinh/daketo/chap1/11.jpg",
+        "./assets/img/chuyen-sinh/daketo/chap1/12.jpg",
+        "./assets/img/chuyen-sinh/daketo/chap1/13.jpg",
+        "./assets/img/chuyen-sinh/daketo/chap1/14.jpg",
+        "./assets/img/chuyen-sinh/daketo/chap1/15.jpg",
+        "./assets/img/chuyen-sinh/daketo/chap1/16.jpg",
+        "./assets/img/chuyen-sinh/daketo/chap1/17.jpg",
+        "./assets/img/chuyen-sinh/daketo/chap1/18.jpg",
+        "./assets/img/chuyen-sinh/daketo/chap1/19.jpg",
+        "./assets/img/chuyen-sinh/daketo/chap1/20.jpg",
+        "./assets/img/chuyen-sinh/daketo/chap1/21.jpg",
+        "./assets/img/chuyen-sinh/daketo/chap1/22.jpg",
+        "./assets/img/chuyen-sinh/daketo/chap1/23.jpg",
+        "./assets/img/chuyen-sinh/daketo/chap1/24.jpg",
+        "./assets/img/chuyen-sinh/daketo/chap1/25.jpg"
+
+
+
+      ],
+      "Chapter 2": [
+       
+      ]
   }
+ }
+
 }
-
-
 
  
  
